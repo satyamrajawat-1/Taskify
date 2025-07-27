@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2"
  const todoSchema = new mongoose.Schema(
     {
         owner:{
@@ -20,4 +21,5 @@ import mongoose, { Schema } from "mongoose";
     {timestamps:true}
 )
 
+todoSchema.plugin(mongooseAggregatePaginate)
 export const Todo = mongoose.model('Todo', todoSchema);
