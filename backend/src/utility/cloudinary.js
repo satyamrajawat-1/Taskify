@@ -11,7 +11,7 @@ const uploadOnCloudinary = async (localPath) => {
     if (!localPath) return null
     try {
         const response = await cloudinary.uploader.upload(localPath, {
-            resource_type: auto,
+            resource_type: "auto",
             folder:'todo_assets',
             unique_filename:true
             

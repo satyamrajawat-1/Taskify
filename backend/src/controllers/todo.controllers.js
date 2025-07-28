@@ -38,7 +38,7 @@ const updateTodo = asyncHandler(async(req,res)=>{
     const user = req.user._id
     const {todoId} = req.params
     const{task , status} = req.body
-    if(!task || !status){
+    if(!task && !status){
         throw new ApiError(400,"fields are required")
     }
     const todo = await Todo.findOne({$and:[{_id:todoId},{owner:user}]})

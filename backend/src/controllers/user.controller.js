@@ -3,6 +3,7 @@ import { ApiError } from "../utility/ApiError.js";
 import { ApiResponse } from '../utility/ApiResponse.js'
 import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utility/cloudinary.js";
+import jwt from "jsonwebtoken"
 const generateAccessAndRefreshToken = async (userId) => {
     try {
         const user = await User.findById(userId)
@@ -31,6 +32,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
     const coverImageLocalPath = req.files?.coverImage[0]?.path
     const avatar = await uploadOnCloudinary(avatarLocalPath)
+    console.log(avatar)
     if (!avatar) {
         throw new ApiError(400, "Error in uploading avatar")
     }
@@ -50,15 +52,9 @@ const registerUser = asyncHandler(async (req, res) => {
     if (!createdUser) {
         throw new ApiError(400, "Error in registering user")
     }
-    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id)
-    const options = {
-        httpOnly: true,
-        secure: true
-    }
+    
     return res
         .status(200)
-        .cookie("accessToken", accessToken, options)
-        .cookie("refreshToken", refreshToken, options)
         .json(new ApiResponse(200, createdUser, "user registered successfully"))
 })
 
@@ -71,7 +67,7 @@ const login = asyncHandler(async (req, res) => {
     if (!user) {
         throw new ApiError(401, "User Not Found")
     }
-    const correctPassword = user.isPasswordCorrect(password)
+    const correctPassword =await user.isPasswordCorrect(password)
     if (!correctPassword) {
         throw new ApiError(400, "Inccorect Password")
     }
@@ -99,7 +95,7 @@ const logOut = asyncHandler(async (req, res) => {
         httpOnly: true,
         secure: true
     }
-    req.status(200).clearCookie("accessToken", options).clearCookie("refreshToken", options)
+    res.status(200).clearCookie("accessToken", options).clearCookie("refreshToken", options)
         .json(new ApiResponse(200, {}, "User LoggedOut Successfully"))
 })
 
@@ -153,16 +149,18 @@ const updateProfile = asyncHandler(async (req, res) => {
 
 const updatePassword = asyncHandler(async(req,res)=>{
     const{oldPassword , newPassword} = req.body
+    console.log(oldPassword)
     if(!newPassword||!oldPassword){
         throw new ApiError(400,"PASSWORD IS REQUIRED ")
     }
     const user = await User.findById(req.user._id)
     const correctPassword = await user.isPasswordCorrect(oldPassword)
+    console.log(correctPassword)
     if(!correctPassword){
         throw new ApiError(400,"Old Password Is Incorrect")
     }
     user.password = newPassword
-    await user.save({validateBeforeSave:false})
+    await user.save()
     res.status(200).json(new ApiResponse(200,{},"Password Updated Successfully"))
 })
 
@@ -172,6 +170,7 @@ const currentUser = asyncHandler(async(req,res)=>{
 
 const changeAvatar = asyncHandler(async(req,res)=>{
     const avatarLocalPath = req.file?.path
+    console.log(avatarLocalPath)
     if(!avatarLocalPath){
         throw new ApiError(400,"avatar is required")
     }
@@ -179,7 +178,9 @@ const changeAvatar = asyncHandler(async(req,res)=>{
     if(!avatar){
         throw new ApiError(400,"ERROR WHILE UPLODING AVAATR")
     }
+    console.log("avatar",avatar)
     const user = await User.findById(req.user?._id).select("-password -refreshToken")
+    console.log("user :",user)
     user.avatar = avatar.url
     await user.save({validateBeforeSave:false})
     res.status(200).json(new ApiResponse(200,user,"AVATAR UPDATED SUCCESSFULLY"))

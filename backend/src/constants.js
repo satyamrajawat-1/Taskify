@@ -1,2 +1,2 @@
-const DB_NAME = 'todo'
+const DB_NAME = 'todoProject'
 export{DB_NAME}
