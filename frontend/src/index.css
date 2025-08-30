@@ -1,0 +1,98 @@
+@import 'tailwindcss';
+
+.loginPage {
+  background-image: url('/image.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  background-color: #FF6767;
+}
+
+.signUp {
+  font-size: 8px;
+}
+
+.button {
+  background: #FF9090;
+}
+
+.button:active {
+  background-color: #f67474;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.search {
+  background-color: #FF6767;
+}
+
+.search:active {
+  background: #f64f4f;
+}
+
+header {
+  background: #F8F8F8;
+}
+
+.searchBox {
+  background: #F5F5F5;
+}
+
+.leftSection {
+  height: 630px;
+  background: #FF6767;
+}
+
+.leftSection li:hover {
+  color: #FF6767;
+  background: white;
+  cursor: pointer;
+}
+.leftSection li:active {
+  color: #FF6767;
+  background: white;
+  cursor: pointer;
+}
+
+.leftSection li:focus {
+  background: white;
+}
+
+.logout:hover {
+  cursor: pointer;
+}
+.section{
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+}
+.tasks{
+  height: 504px;
+}
+@media (min-width: 200px) and (max-width: 830px)  {
+  .section li{
+    font-size: 12px;
+  }
+}
+
+ @media (min-width: 200px) and (max-width: 660px)  {
+  .searchBox {
+    font-size: 10px;
+  }
+  .date{
+    font-size: 10px;
+  }
+ }
+
+.header{
+  background-color: #f5f3f1;
+}
+.fileName{
+  width: 25%;
+}
+#box{
+  background-color: #f5f3f1;
+}

@@ -14,7 +14,7 @@ import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2"
         },
         status:{
             type:String,
-            enum : ['completed' , 'started' , 'notStarted'],
+            enum : ['completed' , 'started' , 'not started'],
             default:'started'
         }
     },

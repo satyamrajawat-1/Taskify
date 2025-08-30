@@ -5,7 +5,7 @@ import { Todo } from "../models/todo.model.js";
 import mongoose from "mongoose";
 
 const uploadTodo = asyncHandler(async (req, res) => {
-    const { task } = req.body
+    const { task , status } = req.body
     if (!task) {
         throw new ApiError(400, "task is required")
     }
@@ -19,6 +19,7 @@ const uploadTodo = asyncHandler(async (req, res) => {
 
     const todo = await Todo.create({
         task,
+        status,
         owner: user
     })
     res.status(200).json(new ApiResponse(200, todo, "todo Created successfully"))
@@ -46,6 +47,24 @@ const updateTodo = asyncHandler(async(req,res)=>{
     throw new ApiError(404, "Todo not found or unauthorized");
   }
     todo.task = task || todo.task
+    todo.status = status || todo.status
+    const updatedTodo = await todo.save({validateBeforeSave:false})
+    if(!updatedTodo){
+        throw new ApiError(400,"Todo not updated")
+    }
+    res.status(200).json(new ApiResponse(200,updatedTodo,"todo updated successfully"))
+})
+const toggleTodo = asyncHandler(async(req,res)=>{
+    const user = req.user._id
+    const {todoId} = req.params
+    const{status} = req.body
+    if(!status){
+        throw new ApiError(400,"fields are required")
+    }
+    const todo = await Todo.findOne({$and:[{_id:todoId},{owner:user}]})
+    if (!todo) {
+    throw new ApiError(404, "Todo not found or unauthorized");
+  }
     todo.status = status || todo.status
     const updatedTodo = await todo.save({validateBeforeSave:false})
     if(!updatedTodo){
@@ -87,5 +106,6 @@ export {
     uploadTodo,
     deleteTodo,
     updateTodo,
-    getAllTodos
+    getAllTodos,
+    toggleTodo
 }
