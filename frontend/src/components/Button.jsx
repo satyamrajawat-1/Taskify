@@ -7,7 +7,7 @@ export default function Button({
     ...props
 }) {
     return (
-        <button className={`px-1 py-0.5 sm:rounded-lg ${className}`} {...props}>
+        <button className={`px-1 py-0.5 sm:rounded-lg ${className} cursor-pointer`} {...props}>
             {text}
         </button>
     );
