@@ -7,6 +7,10 @@ connect().then(()=>{
     app.on('error',(error)=>{
         console.log('Error in connecting app :',error)
     })
+    app.get("/", (req, res) => {
+  res.send("✅ Taskify Backend is Live!");
+});
+
     app.listen(`${process.env.PORT}`,()=>{
         console.log(`App is listening on port : ${process.env.PORT}`)
     })
