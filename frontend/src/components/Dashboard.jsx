@@ -1,7 +1,7 @@
 import React, { useEffect, useState , useRef} from 'react'
 import { StartedTaskCard, TaskCard ,NotStartedTaskCard} from './index'
 import { useSelector, useDispatch } from 'react-redux'
-import axios from 'axios'
+import { api } from '../lib/api.js'
 import { useNavigate, Link, NavLink } from 'react-router-dom'
 import { addTodo } from '../app/todoSlice.js'
 import { useForm } from 'react-hook-form'
@@ -12,7 +12,7 @@ function Dashboard() {
     const navigate = useNavigate()
     const [addTask, setAddTask] = useState(false)
     const id = (useSelector((state) => (state.auth.userData._id)))
-    const Data = () => (axios.get(`/api/v1/todo/get-todo?userId=${id}`, { withCredentials: true })
+    const Data = () => (api.get(`/api/v1/todo/get-todo?userId=${id}`, { withCredentials: true })
         .then((response) => {
             // console.log(response.data.data)
             const array = response.data.data
@@ -44,7 +44,7 @@ function Dashboard() {
         console.log(data)
         const createdAt = new Date()
         console.log(createdAt)
-        axios.post('/api/v1/todo/add-todo', data).then(() => dispatch(addTodo({ task: data.task, status: data.status, createdAt , id:data._id}))).catch((err) => console.log(err))
+        api.post('/api/v1/todo/add-todo', data).then(() => dispatch(addTodo({ task: data.task, status: data.status, createdAt , id:data._id}))).catch((err) => console.log(err))
         reset()
         setAddTask(false)
 

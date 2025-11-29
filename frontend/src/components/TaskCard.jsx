@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux'
 import { Button } from './index.js';
 import { updateTodo, deleteTodo, toggleStatus } from '../app/todoSlice.js'
-import axios from 'axios';
+import { api } from '../lib/api.js';
 export default function TaskCard({ text = "", status = "", createdAt = "" ,id=""}) {
     const dispatch = useDispatch()
     console.log("id is :", id)
@@ -23,7 +23,7 @@ export default function TaskCard({ text = "", status = "", createdAt = "" ,id=""
     const deleteTask = (id) => {
         console.log("id is :", id)
         dispatch(deleteTodo({ id }))
-        axios.post(`/api/v1/todo/delete-todo/${id}`)
+        api.post(`/api/v1/todo/delete-todo/${id}`)
     }
     return (
         <li className='border-[1.5px] border-zinc-400 max-h-20 text-ellipsis overflow-auto min-h-10 w-11/12 mx-auto my-6 text-center md:rounded-md rounded-sm relative ' id={id}>

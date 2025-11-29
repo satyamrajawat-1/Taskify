@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { logOut } from '../app/authSlice.js'
 import { useNavigate, Link, NavLink } from 'react-router-dom'
-import axios from 'axios'
+import { api } from '../lib/api.js'
 
 function LeftSection() {
 
@@ -13,7 +13,7 @@ function LeftSection() {
 
     const logout = () => {
         console.log('clicked')
-        axios.post('/api/v1/user/logout')
+        api.post('/api/v1/user/logout')
             .then((res) => {
                 console.log(res)
                 navigate('/login')

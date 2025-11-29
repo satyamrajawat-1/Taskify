@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import React, { useState } from 'react';
 import { Input, Button } from './index.js'
 // import { login as authLogin } from '../app/authSlice.js';
-import axios from 'axios';
+import { api } from '../lib/api.js';
 import { useNavigate ,Link} from 'react-router-dom';
 import {useDispatch,useSelector} from 'react-redux'
 function SignUp() {
@@ -18,7 +18,7 @@ function SignUp() {
     formData.append("avatar", data.avatar[0])
 
     try {
-      const res = await axios.post('/api/v1/user/register', formData, {
+      const res = await api.post('/api/v1/user/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

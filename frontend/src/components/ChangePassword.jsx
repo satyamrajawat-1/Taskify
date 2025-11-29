@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import { useForm } from 'react-hook-form'
 import Input from './Input'
 import Button from './Button'
-import axios from 'axios'
+import { api } from '../lib/api'
 import { useSelector , useDispatch } from 'react-redux'
 import { useNavigate , Link} from 'react-router-dom'
 function ChangePassword() {
@@ -14,7 +14,7 @@ function ChangePassword() {
         const email = useSelector((state)=>state.auth.userData.email)
         const avatar = useSelector((state)=>state.auth.userData.avatar)
     const update = async (data) => {
-        axios.post('/api/v1/user/update-password', data)
+        api.post('/api/v1/user/update-password', data)
             .then((res) => {
                 console.log(res)
                 navigate('/dashboard')

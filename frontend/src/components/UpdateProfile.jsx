@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Input from './Input'
 import Button from './Button'
-import axios from 'axios'
+import { api } from '../lib/api'
 import { useNavigate, Link, data } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { login as authLogin } from '../app/authSlice'
@@ -22,7 +22,7 @@ function UpdateProfile() {
         formData.append("email", data.email)
         formData.append("password", data.password)
         formData.append("avatar", data.avatar[0])
-        axios.post('/api/v1/user/update-profile', formData)
+        api.post('/api/v1/user/update-profile', formData)
             .then((res) => {
                 dispatch(authLogin(res.data.data))
                 navigate('/dashboard')

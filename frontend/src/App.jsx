@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import axios from 'axios';
+import { api } from './lib/api';
 import { useSelector, useDispatch } from 'react-redux';
 import { login as authLogin } from './app/authSlice';
 import { Navigate, Outlet } from 'react-router-dom';
@@ -12,7 +12,7 @@ function App() {
   const dispatch = useDispatch()
   const [loading , setLoading] = useState(true)
   useEffect(() => {
-    axios.get('/api/v1/user/check-auth',{withCredentials:true})
+    api.get('/api/v1/user/check-auth',{withCredentials:true})
     .then((res)=>{
       console.log(res)
       dispatch(authLogin(res.data.data.user))

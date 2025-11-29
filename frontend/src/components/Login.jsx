@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { login as authLogin } from '../app/authSlice.js';
 import { Input, Button } from './index.js'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import { api } from '../lib/api.js';
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 function Login() {
@@ -14,7 +14,7 @@ function Login() {
   const [error, setError] = useState("")
   const { register, handleSubmit, formState: { errors } } = useForm()
   const handleLogin = async (data) => {
-    axios.post('/api/v1/user/login', data)
+    api.post('/api/v1/user/login', data)
       .then((response) => {
         dispatch(authLogin(response.data.data.user))
         navigate("/dashboard")
