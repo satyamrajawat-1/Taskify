@@ -5,7 +5,7 @@ import Button from "./Button";
 import Header from "./Header/Header";
 import Container from "./Section/Container";
 import StartedTaskCard from "./StartedTaskCard";
-import TaskCard from "./taskCard";
+import TaskCard from "./TaskCard";
 import AuthLayout from "./AuthLayout";
 import ChangePassword from "./ChangePassword";
 import LeftSection from "./LeftSection";
