@@ -45,7 +45,8 @@ const registerUser = asyncHandler(async (req, res) => {
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id)
     const options = {
         httpOnly: true,
-        secure: true
+        secure: true,
+        sameSite: "none"
     }
     const createdUser = await User.findById(user._id).select("-password -refreshToken")
     if (!createdUser) {
@@ -79,7 +80,8 @@ const login = asyncHandler(async (req, res) => {
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id)
     const options = {
         httpOnly: true,
-        secure: true
+        secure: true,
+        sameSite: "none"
     }
     const loggedUser = await User.findById(user._id).select("-password -refreshToken")
     return res.status(200).cookie("accessToken", accessToken, options).cookie("refreshToken", refreshToken, options)
@@ -98,7 +100,8 @@ const logOut = asyncHandler(async (req, res) => {
         })
     const options = {
         httpOnly: true,
-        secure: true
+        secure: true,
+        sameSite: "none"
     }
     res.status(200).clearCookie("accessToken", options).clearCookie("refreshToken", options)
         .json(new ApiResponse(200, {}, "User LoggedOut Successfully"))
@@ -120,7 +123,8 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         }
         const options = {
             httpOnly: true,
-            secure: true
+            secure: true,
+            sameSite: "none"
         }
         const { accessToken, newrefreshToken } = await generateAccessAndRefreshToken(user._id)
         return res.status(200).cookie("accessToken", accessToken, options).cookie("refreshToken", newrefreshToken, options).json(new ApiResponse(200,
